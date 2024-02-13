@@ -1,4 +1,4 @@
-name: Build and Analyze
+name: Build and Analyze with Coverage
 
 on:
   push:
@@ -22,6 +22,24 @@ jobs:
           # npm install
           # npm run build
 
+      # Run tests and collect code coverage
+      - name: Run tests and collect coverage
+        # Replace with appropriate command to run your tests and collect coverage
+        run: |
+          # Example commands using Jest for JavaScript projects:
+          # npm install
+          # npm test -- --coverage
+
+      - name: Upload coverage report to SonarQube
+        uses: sonarsource/sonar-scanner-cli@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          # You may need additional environment variables depending on your SonarQube setup
+        with:
+          args: >
+            -Dsonar.coverageReportPaths=<path_to_coverage_report>
+
       - name: Analyze with SonarQube
         uses: sonarsource/sonarqube-scan-action@master
         env:
@@ -35,4 +53,5 @@ jobs:
       #   timeout-minutes: 5
       #   env:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 
