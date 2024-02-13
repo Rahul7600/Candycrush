@@ -1,4 +1,4 @@
-name: Build and Analyze with Coverage
+name: SonarQube Analysis
 
 on:
   push:
@@ -6,43 +6,33 @@ on:
       - main
 
 jobs:
-  build-and-analyze:
-    name: Build and Analyze
+  sonarqube-analysis:
+    name: SonarQube Analysis
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Build
-        # Add your build commands here
         run: |
-          # Example build commands:
+          # Add your build commands here
+          # Example:
           # npm install
           # npm run build
 
-      # Run tests and collect code coverage
-      - name: Run tests and collect coverage
-        # Replace with appropriate command to run your tests and collect coverage
-        run: |
-          # Example commands using Jest for JavaScript projects:
-          # npm install
-          # npm test -- --coverage
-
-      - name: Analyze with SonarQube
+      - name: SonarQube Scanner
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
-      # If you wish to fail your job when the Quality Gate is red, uncomment the
-      # following lines. This would typically be used to fail a deployment.
+      # Optionally, fail the workflow if the Quality Gate fails
       # - name: Check Quality Gate
       #   uses: sonarsource/sonarqube-quality-gate-action@master
       #   timeout-minutes: 5
       #   env:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 
 
 
